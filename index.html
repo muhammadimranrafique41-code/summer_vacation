@@ -48,6 +48,12 @@ tailwind.config = {
     --navy: #1A2340;
     --whatsapp: #25D366;
     --badge: #E53E3E;
+    /* ── DESIGN TOKENS ── */
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-spring:   cubic-bezier(0.22, 1, 0.36, 1);
+    --transition-smooth: all 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+    --ai-glow-border: rgba(99, 179, 237, 0.22);
+    --ai-card-bg: linear-gradient(145deg, #1a2744, #0d1526);
   }
 
   * { box-sizing: border-box; scroll-behavior: smooth; }
@@ -57,15 +63,23 @@ tailwind.config = {
     background: #fff;
     color: var(--navy);
     overflow-x: hidden;
+    line-height: 1.7;
   }
 
-  h1, h2, h3 { font-family: 'Fredoka One', cursive; }
+  h1, h2, h3 {
+    font-family: 'Fredoka One', cursive;
+    letter-spacing: -0.01em;
+  }
+  h2 { font-size: clamp(2rem, 5vw, 3.25rem); }
   .font-nunito { font-family: 'Nunito', sans-serif; }
 
   /* ── SCROLLBAR ── */
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: #f1f5f9; }
-  ::-webkit-scrollbar-thumb { background: var(--brand); border-radius: 3px; }
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--brand), #1ac8d4);
+    border-radius: 4px;
+  }
 
   /* ── NAVBAR ── */
   #navbar {
@@ -82,7 +96,8 @@ tailwind.config = {
     font-family: 'Nunito', sans-serif;
     font-weight: 700;
     color: var(--navy);
-    transition: color 0.2s;
+    transition: color 0.25s var(--ease-spring), transform 0.25s var(--ease-spring);
+    display: inline-block;
   }
   .nav-link::after {
     content: '';
@@ -90,11 +105,12 @@ tailwind.config = {
     bottom: -2px; left: 0;
     width: 0; height: 2px;
     background: var(--brand);
-    transition: width 0.3s ease;
+    transition: width 0.35s var(--ease-out-expo);
     border-radius: 2px;
   }
   .nav-link:hover::after { width: 100%; }
-  .nav-link:hover { color: var(--brand); }
+  .nav-link:hover { color: var(--brand); transform: translateY(-1px); }
+  .nav-link:active { transform: translateY(0px); }
 
   /* ── MARQUEE ── */
   .marquee-wrap { overflow: hidden; white-space: nowrap; }
@@ -141,15 +157,20 @@ tailwind.config = {
 
   /* ── CARDS ── */
   .card-hover {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.38s var(--ease-out-expo),
+                box-shadow 0.38s var(--ease-out-expo),
+                border-color 0.3s ease;
+    will-change: transform;
+    border: 2px solid transparent;
   }
   .card-hover:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 50px rgba(26,115,232,0.18);
+    transform: translateY(-10px);
+    box-shadow: 0 24px 56px rgba(26,115,232,0.2);
+    border-color: rgba(26,115,232,0.15);
   }
 
   .book-card-img {
-    transition: transform 0.4s ease;
+    transition: transform 0.45s var(--ease-out-expo);
   }
   .book-card:hover .book-card-img {
     transform: scale(1.07);
@@ -166,13 +187,18 @@ tailwind.config = {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    transition: all 0.2s ease;
+    transition: transform 0.22s var(--ease-spring),
+                box-shadow 0.22s var(--ease-spring),
+                background 0.2s ease;
     border: none;
     cursor: pointer;
     text-decoration: none;
     font-size: 0.95rem;
+    letter-spacing: 0.025em;
   }
-  .btn-primary:hover { transform: scale(1.05); box-shadow: 0 8px 24px rgba(26,115,232,0.4); background: #1558c0; }
+  .btn-primary:hover { transform: scale(1.055); box-shadow: 0 10px 28px rgba(26,115,232,0.42); background: #1558c0; }
+  .btn-primary:active { transform: scale(0.97); box-shadow: 0 4px 12px rgba(26,115,232,0.3); }
+  .btn-primary:focus-visible { outline: 3px solid var(--brand); outline-offset: 3px; }
 
   .btn-whatsapp {
     background: var(--whatsapp);
@@ -184,13 +210,18 @@ tailwind.config = {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    transition: all 0.2s ease;
+    transition: transform 0.22s var(--ease-spring),
+                box-shadow 0.22s var(--ease-spring),
+                background 0.2s ease;
     border: none;
     cursor: pointer;
     text-decoration: none;
     font-size: 0.95rem;
+    letter-spacing: 0.025em;
   }
-  .btn-whatsapp:hover { transform: scale(1.05); box-shadow: 0 8px 24px rgba(37,211,102,0.4); background: #1fad57; }
+  .btn-whatsapp:hover { transform: scale(1.055); box-shadow: 0 10px 28px rgba(37,211,102,0.42); background: #1fad57; }
+  .btn-whatsapp:active { transform: scale(0.97); box-shadow: 0 4px 12px rgba(37,211,102,0.3); }
+  .btn-whatsapp:focus-visible { outline: 3px solid var(--whatsapp); outline-offset: 3px; }
 
   .btn-sunshine {
     background: var(--sunshine);
@@ -202,13 +233,18 @@ tailwind.config = {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    transition: all 0.2s ease;
+    transition: transform 0.22s var(--ease-spring),
+                box-shadow 0.22s var(--ease-spring),
+                background 0.2s ease;
     border: none;
     cursor: pointer;
     text-decoration: none;
     font-size: 0.95rem;
+    letter-spacing: 0.025em;
   }
-  .btn-sunshine:hover { transform: scale(1.05); box-shadow: 0 8px 24px rgba(255,193,7,0.5); }
+  .btn-sunshine:hover { transform: scale(1.055); box-shadow: 0 10px 28px rgba(255,193,7,0.52); }
+  .btn-sunshine:active { transform: scale(0.97); box-shadow: 0 4px 12px rgba(255,193,7,0.35); }
+  .btn-sunshine:focus-visible { outline: 3px solid var(--sunshine); outline-offset: 3px; }
 
   /* ── WHATSAPP FLOATING ── */
   #wa-float {
@@ -268,55 +304,76 @@ tailwind.config = {
     background: #fff;
     color: #64748b;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: background 0.22s var(--ease-spring),
+                color 0.22s var(--ease-spring),
+                border-color 0.22s var(--ease-spring),
+                transform 0.22s var(--ease-spring),
+                box-shadow 0.22s var(--ease-spring);
+    letter-spacing: 0.02em;
   }
-  .filter-btn:hover, .filter-btn.active {
+  .filter-btn:hover {
+    background: rgba(26,115,232,0.08);
+    border-color: var(--brand);
+    color: var(--brand);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(26,115,232,0.12);
+  }
+  .filter-btn.active {
     background: var(--brand);
     border-color: var(--brand);
     color: #fff;
+    box-shadow: 0 6px 18px rgba(26,115,232,0.3);
+    transform: translateY(-1px);
   }
+  .filter-btn:active { transform: translateY(0); }
 
   /* ── MODALS ── */
   .modal-overlay {
     position: fixed; inset: 0;
-    background: rgba(10,20,40,0.65);
-    backdrop-filter: blur(4px);
+    background: rgba(5, 15, 35, 0.72);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     z-index: 1000;
     display: flex; align-items: center; justify-content: center;
     padding: 16px;
     opacity: 0; pointer-events: none;
-    transition: opacity 0.3s;
+    transition: opacity 0.35s var(--ease-spring);
   }
   .modal-overlay.open { opacity: 1; pointer-events: auto; }
   .modal-box {
     background: #fff;
-    border-radius: 24px;
+    border-radius: 28px;
     max-width: 600px;
     width: 100%;
     max-height: 90vh;
     overflow-y: auto;
-    padding: 32px;
-    transform: scale(0.9);
-    transition: transform 0.3s;
+    padding: 36px;
+    transform: translateY(28px) scale(0.94);
+    transition: transform 0.42s var(--ease-out-expo);
     position: relative;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 32px 80px rgba(0,0,0,0.22), 0 0 0 1px rgba(255,255,255,0.05);
   }
-  .modal-overlay.open .modal-box { transform: scale(1); }
+  .modal-overlay.open .modal-box {
+    transform: translateY(0) scale(1);
+  }
 
   /* ── SCROLL FADE ── */
   .fade-up {
     opacity: 0;
-    transform: translateY(32px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
+    transform: translateY(40px);
+    transition: opacity 0.65s var(--ease-spring), transform 0.65s var(--ease-spring);
   }
   .fade-up.visible {
     opacity: 1;
     transform: translateY(0);
   }
-  .fade-up.delay-1 { transition-delay: 0.1s; }
-  .fade-up.delay-2 { transition-delay: 0.2s; }
-  .fade-up.delay-3 { transition-delay: 0.3s; }
-  .fade-up.delay-4 { transition-delay: 0.4s; }
-  .fade-up.delay-5 { transition-delay: 0.5s; }
+  .fade-up.delay-1 { transition-delay: 0.08s; }
+  .fade-up.delay-2 { transition-delay: 0.16s; }
+  .fade-up.delay-3 { transition-delay: 0.24s; }
+  .fade-up.delay-4 { transition-delay: 0.32s; }
+  .fade-up.delay-5 { transition-delay: 0.40s; }
+  .fade-up.delay-6 { transition-delay: 0.48s; }
 
   /* ── STAR RATINGS ── */
   .stars { color: var(--sunshine); }
@@ -328,12 +385,13 @@ tailwind.config = {
     color: var(--brand);
     font-family: 'Nunito', sans-serif;
     font-weight: 800;
-    font-size: 0.8rem;
-    letter-spacing: 0.1em;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    padding: 6px 16px;
+    padding: 6px 18px;
     border-radius: 50px;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
+    border: 1px solid rgba(26,115,232,0.12);
   }
 
   /* ── IMAGE PLACEHOLDERS ── */
@@ -536,6 +594,101 @@ tailwind.config = {
     animation: shimmer 2.5s linear infinite;
   }
 
+  /* ── AI PROFESSIONAL CARDS ── */
+  .ai-card {
+    background: var(--ai-card-bg);
+    border: 1px solid var(--ai-glow-border) !important;
+    position: relative;
+    overflow: hidden;
+  }
+  .ai-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(99,179,237,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(99,179,237,0.04) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .ai-card::after {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(26,115,232,0.18) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .ai-card > * { position: relative; z-index: 1; }
+  .ai-card.card-hover:hover {
+    border-color: rgba(99,179,237,0.45) !important;
+    box-shadow: 0 0 0 1px rgba(99,179,237,0.2),
+                0 28px 60px rgba(0,0,0,0.55),
+                0 0 40px rgba(26,115,232,0.14) !important;
+    transform: translateY(-10px);
+  }
+
+  /* ── AI TIER DIVIDER ── */
+  .ai-tier-divider {
+    grid-column: 1 / -1;
+    background: linear-gradient(135deg, #0d1526 0%, #1a2744 50%, #0d1526 100%);
+    border-radius: 20px;
+    padding: 18px 28px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border: 1px solid rgba(99,179,237,0.18);
+    position: relative;
+    overflow: hidden;
+    margin-top: 12px;
+  }
+  .ai-tier-divider::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(99,179,237,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(99,179,237,0.03) 1px, transparent 1px);
+    background-size: 24px 24px;
+    pointer-events: none;
+  }
+  .ai-tier-divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(99,179,237,0.35), transparent);
+  }
+  .ai-tier-divider-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(26,115,232,0.2);
+    border: 1px solid rgba(99,179,237,0.3);
+    color: #93c5fd;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 8px 20px;
+    border-radius: 50px;
+    position: relative;
+    z-index: 1;
+    white-space: nowrap;
+  }
+  .ai-dot {
+    width: 7px; height: 7px;
+    background: #60a5fa;
+    border-radius: 50%;
+    animation: aiPulse 2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  @keyframes aiPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.45; transform: scale(0.65); }
+  }
+
   /* MOBILE ADJUSTMENTS */
   @media (max-width: 640px) {
     .btn-primary, .btn-whatsapp, .btn-sunshine {
@@ -544,7 +697,8 @@ tailwind.config = {
     }
     #wa-float .wa-label { display: none; }
     #wa-float { padding: 14px 16px; border-radius: 50%; }
-    .modal-box { padding: 20px 16px; }
+    .modal-box { padding: 24px 20px; }
+    .ai-tier-divider { padding: 14px 16px; }
   }
 </style>
 </head>
@@ -617,7 +771,7 @@ tailwind.config = {
 <!-- ═══════════════════════════════════════════════════
      HERO SECTION
 ═══════════════════════════════════════════════════ -->
-<section id="hero" class="min-h-screen flex items-center pt-20 pb-32 relative">
+<section id="hero" class="min-h-screen flex items-center pt-20 pb-36 lg:pb-44 relative" style="min-height:clamp(600px,100vh,1080px);">
   <!-- Floating circles background -->
   <div class="absolute inset-0 overflow-hidden pointer-events-none">
     <div style="position:absolute;top:10%;left:5%;width:300px;height:300px;background:rgba(255,255,255,0.04);border-radius:50%;"></div>
@@ -630,7 +784,7 @@ tailwind.config = {
       <!-- Left Text -->
       <div class="text-white fade-up">
         <!-- Launch Badge -->
-        <div class="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm text-white text-sm font-nunito font-800 rounded-full px-5 py-2 mb-6 border border-white/20">
+        <div class="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm text-white text-sm font-nunito font-800 rounded-full px-5 py-2 mb-5 border border-white/20">
           <span class="text-sunshine">🌟</span>
           Summer Vacation 2026 — Now Launched!
         </div>
@@ -787,20 +941,34 @@ tailwind.config = {
 
       <!-- Right: Image -->
       <div class="fade-up delay-2 relative">
-        <div class="img-zoom-wrap rounded-3xl shadow-2xl" style="height:420px;background:linear-gradient(135deg,#e8f1fd,#d0e4fb);">
-          <img src="about-classroom.jpg" alt="AI Vision Learner Classroom"
-               class="w-full h-full object-cover"
-               onerror="this.style.display='none';this.parentElement.style.display='flex';this.parentElement.style.flexDirection='column';this.parentElement.style.alignItems='center';this.parentElement.style.justifyContent='center'"/>
-          <div style="display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;text-align:center;">
-            <div style="font-size:5rem;">🏫</div>
-            <div class="font-fredoka text-brand text-2xl">About AI Vision Learner</div>
-            <div class="font-nunito font-700 text-slate-500">Inspiring Young Learners Nationwide</div>
-          </div>
+        <div class="img-zoom-wrap rounded-3xl shadow-2xl" style="height:420px;background:var(--sky);display:flex;align-items:center;justify-content:center;padding:24px;">
+          <img src="main_title.png" alt="AI Vision Learner Summer Vacation Books 2026"
+               style="width:100%;height:100%;object-fit:contain;display:block;"
+               onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\'display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;text-align:center;height:100%\'><div style=\'font-size:5rem\'>📚</div><div class=\'font-fredoka text-brand text-2xl\'>AI Vision Learner</div><div class=\'font-nunito font-700 text-slate-500\'>Summer Vacation Books 2026</div></div>'"/>
         </div>
         <!-- Floating trust badge -->
-        <div class="badge-pop" style="position:absolute;bottom:24px;left:-20px;background:#fff;border-radius:16px;padding:12px 20px;box-shadow:0 8px 32px rgba(26,115,232,0.2);display:flex;align-items:center;gap:10px;font-family:'Nunito',sans-serif;font-weight:800;font-size:0.85rem;color:var(--navy);">
-          <span style="font-size:1.5rem;">🏆</span>
-          <div>Pakistan's<br/><span style="color:var(--brand);">Trusted Publisher</span></div>
+        <div class="badge-pop" style="
+          position: absolute;
+          bottom: 24px;
+          left: -20px;
+          background: rgba(255,255,255,0.85);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          border-radius: 16px;
+          box-shadow: 0 12px 40px rgba(26,115,232,0.12);
+          border: 1px solid rgba(26,115,232,0.15);
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 12px 16px;
+          font-size: 0.85rem;
+          color: var(--navy);
+        ">
+          <span style="font-size:1.4rem;flex-shrink:0;line-height:1;">🏆</span>
+          <div style="line-height:1.3;">
+            <div class="font-nunito" style="font-weight:700;font-size:0.78rem;color:#64748b;letter-spacing:0.02em;">Pakistan's</div>
+            <div class="font-fredoka" style="font-size:1rem;color:var(--brand);letter-spacing:-0.01em;">Trusted Publisher</div>
+          </div>
         </div>
       </div>
     </div>
@@ -1014,7 +1182,7 @@ tailwind.config = {
     </div>
 
     <!-- Books Grid -->
-    <div id="books-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
+    <div id="books-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
 
       <!-- Nursery Homework -->
       <div class="book-item bg-white rounded-3xl overflow-hidden shadow-lg book-card card-hover fade-up delay-1"
@@ -1024,7 +1192,7 @@ tailwind.config = {
                class="w-full h-full object-cover book-card-img"
                onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'img-placeholder\' style=\'height:100%\'><div style=\'font-size:4rem\'>📚</div><span>Nursery Homework Set</span></div>'"/>
         </div>
-        <div class="p-6">
+        <div class="p-7">
           <div class="flex gap-2 mb-3">
             <span class="bg-brand text-white font-nunito font-800 text-xs px-3 py-1 rounded-full">📦 Homework</span>
             <span class="bg-sunshine text-navy font-nunito font-800 text-xs px-3 py-1 rounded-full">🌱 Nursery</span>
@@ -1051,7 +1219,7 @@ tailwind.config = {
                class="w-full h-full object-cover book-card-img"
                onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'img-placeholder\' style=\'height:100%\'><div style=\'font-size:4rem\'>📘</div><span>Prep-I Homework Set</span></div>'"/>
         </div>
-        <div class="p-6">
+        <div class="p-7">
           <div class="flex gap-2 mb-3">
             <span class="bg-brand text-white font-nunito font-800 text-xs px-3 py-1 rounded-full">📦 Homework</span>
             <span class="bg-sunshine text-navy font-nunito font-800 text-xs px-3 py-1 rounded-full">📘 Prep-I</span>
@@ -1078,7 +1246,7 @@ tailwind.config = {
                class="w-full h-full object-cover book-card-img"
                onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'img-placeholder\' style=\'height:100%\'><div style=\'font-size:4rem\'>📗</div><span>Prep-II Homework Set</span></div>'"/>
         </div>
-        <div class="p-6">
+        <div class="p-7">
           <div class="flex gap-2 mb-3">
             <span class="bg-brand text-white font-nunito font-800 text-xs px-3 py-1 rounded-full">📦 Homework</span>
             <span class="bg-sunshine text-navy font-nunito font-800 text-xs px-3 py-1 rounded-full">📗 Prep-II</span>
@@ -1105,7 +1273,7 @@ tailwind.config = {
                class="w-full h-full object-cover book-card-img"
                onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'img-placeholder\' style=\'height:100%\'><div style=\'font-size:4rem\'>🎨</div><span>Nursery Activity Set</span></div>'"/>
         </div>
-        <div class="p-6">
+        <div class="p-7">
           <div class="flex gap-2 mb-3">
             <span class="bg-growth text-white font-nunito font-800 text-xs px-3 py-1 rounded-full">🎨 Activity</span>
             <span class="bg-sunshine text-navy font-nunito font-800 text-xs px-3 py-1 rounded-full">🌱 Nursery</span>
@@ -1132,7 +1300,7 @@ tailwind.config = {
                class="w-full h-full object-cover book-card-img"
                onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'img-placeholder\' style=\'height:100%\'><div style=\'font-size:4rem\'>✂️</div><span>Prep-I Activity Set</span></div>'"/>
         </div>
-        <div class="p-6">
+        <div class="p-7">
           <div class="flex gap-2 mb-3">
             <span class="bg-growth text-white font-nunito font-800 text-xs px-3 py-1 rounded-full">🎨 Activity</span>
             <span class="bg-sunshine text-navy font-nunito font-800 text-xs px-3 py-1 rounded-full">📘 Prep-I</span>
@@ -1159,7 +1327,7 @@ tailwind.config = {
                class="w-full h-full object-cover book-card-img"
                onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'img-placeholder\' style=\'height:100%\'><div style=\'font-size:4rem\'>🎭</div><span>Prep-II Activity Set</span></div>'"/>
         </div>
-        <div class="p-6">
+        <div class="p-7">
           <div class="flex gap-2 mb-3">
             <span class="bg-growth text-white font-nunito font-800 text-xs px-3 py-1 rounded-full">🎨 Activity</span>
             <span class="bg-sunshine text-navy font-nunito font-800 text-xs px-3 py-1 rounded-full">📗 Prep-II</span>
@@ -1178,26 +1346,36 @@ tailwind.config = {
         </div>
       </div>
 
-      <!-- AI LEVEL-1 -->
-      <div class="book-item fade-up delay-1 rounded-3xl overflow-hidden shadow-lg book-card card-hover"
-           data-class="all" data-type="professional"
-           style="background: linear-gradient(145deg, #1e293b, #0f172a); color: white;">
-        <div class="overflow-hidden flex items-center justify-center" style="height:200px;background:linear-gradient(135deg,#1A2340,#1A73E8);">
-          <i class="ri-cpu-line" style="font-size:5rem;color:#fff;"></i>
+      <!-- ── AI PROFESSIONAL TIER DIVIDER ── -->
+      <div class="ai-tier-divider fade-up delay-1">
+        <div class="ai-tier-divider-line"></div>
+        <div class="ai-tier-divider-badge">
+          <span class="ai-dot"></span>
+          🤖 AI Professional Tier
+          <span class="ai-dot"></span>
         </div>
-        <div class="p-6">
+        <div class="ai-tier-divider-line"></div>
+      </div>
+
+      <!-- AI LEVEL-1 -->
+      <div class="book-item ai-card fade-up delay-2 rounded-3xl overflow-hidden shadow-lg book-card card-hover"
+           data-class="all" data-type="professional">
+        <div class="overflow-hidden flex items-center justify-center" style="height:200px;background:linear-gradient(135deg,#1A2340,#1A73E8);position:relative;z-index:1;">
+          <i class="ri-cpu-line" style="font-size:5rem;color:rgba(255,255,255,0.9);filter:drop-shadow(0 0 12px rgba(99,179,237,0.5));"></i>
+        </div>
+        <div class="p-7">
           <div class="flex gap-2 mb-3">
             <span class="font-nunito font-800 text-xs px-3 py-1 rounded-full" style="background:var(--brand);color:#fff;">🤖 New Tier</span>
-            <span class="font-nunito font-800 text-xs px-3 py-1 rounded-full" style="background:rgba(255,255,255,0.12);color:#fff;">C.I.T (with AI)</span>
+            <span class="font-nunito font-800 text-xs px-3 py-1 rounded-full" style="background:rgba(255,255,255,0.12);color:#fff;border:1px solid rgba(255,255,255,0.15);">C.I.T (with AI)</span>
           </div>
-          <h3 class="font-fredoka text-xl mb-1" style="color:#fff;">AI LEVEL-1</h3>
-          <p class="font-poppins text-xs leading-relaxed mb-3" style="color:#cbd5e1;">
+          <h3 class="font-fredoka text-xl mb-1" style="color:#e2e8f0;letter-spacing:-0.01em;">AI LEVEL-1</h3>
+          <p class="font-poppins text-xs leading-relaxed mb-3" style="color:#94a3b8;">
             Foundational Certificate in Information Technology enhanced with modern AI integration.
           </p>
           <div class="flex items-center justify-between">
             <div>
-              <div class="font-nunito font-600 text-xs" style="color:#94a3b8;">AI Professional Tier</div>
-              <div class="font-fredoka text-2xl" style="color:#fff;">PKR 850<span class="text-sm font-poppins font-400" style="color:#94a3b8;">/course</span></div>
+              <div class="font-nunito font-600 text-xs" style="color:#64748b;">AI Professional Tier</div>
+              <div class="font-fredoka text-2xl" style="color:#93c5fd;">PKR 850<span class="text-sm font-poppins font-400" style="color:#64748b;">/course</span></div>
             </div>
             <button onclick="openBookModal('ai-level-1')" class="btn-primary py-2.5 px-5 text-sm">View Details</button>
           </div>
@@ -1205,25 +1383,24 @@ tailwind.config = {
       </div>
 
       <!-- AI LEVEL-2 -->
-      <div class="book-item fade-up delay-2 rounded-3xl overflow-hidden shadow-lg book-card card-hover"
-           data-class="all" data-type="professional"
-           style="background: linear-gradient(145deg, #1e293b, #0f172a); color: white;">
-        <div class="overflow-hidden flex items-center justify-center" style="height:200px;background:linear-gradient(135deg,#0f3b80,#1A73E8);">
-          <i class="ri-terminal-box-line" style="font-size:5rem;color:#fff;"></i>
+      <div class="book-item ai-card fade-up delay-3 rounded-3xl overflow-hidden shadow-lg book-card card-hover"
+           data-class="all" data-type="professional">
+        <div class="overflow-hidden flex items-center justify-center" style="height:200px;background:linear-gradient(135deg,#0f3b80,#1A73E8);position:relative;z-index:1;">
+          <i class="ri-terminal-box-line" style="font-size:5rem;color:rgba(255,255,255,0.9);filter:drop-shadow(0 0 12px rgba(99,179,237,0.5));"></i>
         </div>
-        <div class="p-6">
+        <div class="p-7">
           <div class="flex gap-2 mb-3">
             <span class="font-nunito font-800 text-xs px-3 py-1 rounded-full" style="background:#34A853;color:#fff;">🐍 In-Demand</span>
-            <span class="font-nunito font-800 text-xs px-3 py-1 rounded-full" style="background:rgba(255,255,255,0.12);color:#fff;">Python Web Dev</span>
+            <span class="font-nunito font-800 text-xs px-3 py-1 rounded-full" style="background:rgba(255,255,255,0.12);color:#fff;border:1px solid rgba(255,255,255,0.15);">Python Web Dev</span>
           </div>
-          <h3 class="font-fredoka text-xl mb-1" style="color:#fff;">AI LEVEL-2</h3>
-          <p class="font-poppins text-xs leading-relaxed mb-3" style="color:#cbd5e1;">
+          <h3 class="font-fredoka text-xl mb-1" style="color:#e2e8f0;letter-spacing:-0.01em;">AI LEVEL-2</h3>
+          <p class="font-poppins text-xs leading-relaxed mb-3" style="color:#94a3b8;">
             Comprehensive Python-based web development utilizing AI-assisted coding workflows.
           </p>
           <div class="flex items-center justify-between">
             <div>
-              <div class="font-nunito font-600 text-xs" style="color:#94a3b8;">AI Professional Tier</div>
-              <div class="font-fredoka text-2xl" style="color:#fff;">PKR 1250<span class="text-sm font-poppins font-400" style="color:#94a3b8;">/course</span></div>
+              <div class="font-nunito font-600 text-xs" style="color:#64748b;">AI Professional Tier</div>
+              <div class="font-fredoka text-2xl" style="color:#93c5fd;">PKR 1250<span class="text-sm font-poppins font-400" style="color:#64748b;">/course</span></div>
             </div>
             <button onclick="openBookModal('ai-level-2')" class="btn-primary py-2.5 px-5 text-sm">View Details</button>
           </div>
@@ -1231,25 +1408,24 @@ tailwind.config = {
       </div>
 
       <!-- AI LEVEL-3 -->
-      <div class="book-item fade-up delay-3 rounded-3xl overflow-hidden shadow-lg book-card card-hover"
-           data-class="all" data-type="professional"
-           style="background: linear-gradient(145deg, #1e293b, #0f172a); color: white;">
-        <div class="overflow-hidden flex items-center justify-center" style="height:200px;background:linear-gradient(135deg,#1A2340,#0f3b80);">
-          <i class="ri-code-s-slash-line" style="font-size:5rem;color:#fff;"></i>
+      <div class="book-item ai-card fade-up delay-4 rounded-3xl overflow-hidden shadow-lg book-card card-hover"
+           data-class="all" data-type="professional">
+        <div class="overflow-hidden flex items-center justify-center" style="height:200px;background:linear-gradient(135deg,#1A2340,#0f3b80);position:relative;z-index:1;">
+          <i class="ri-code-s-slash-line" style="font-size:5rem;color:rgba(255,255,255,0.9);filter:drop-shadow(0 0 12px rgba(99,179,237,0.5));"></i>
         </div>
-        <div class="p-6">
+        <div class="p-7">
           <div class="flex gap-2 mb-3">
-            <span class="font-nunito font-800 text-xs px-3 py-1 rounded-full" style="background:#1A2340;color:#fff;border:1px solid rgba(255,255,255,0.2);">🚀 Expert</span>
-            <span class="font-nunito font-800 text-xs px-3 py-1 rounded-full" style="background:rgba(255,255,255,0.12);color:#fff;">Advanced Web Dev</span>
+            <span class="font-nunito font-800 text-xs px-3 py-1 rounded-full" style="background:rgba(26,115,232,0.35);color:#93c5fd;border:1px solid rgba(99,179,237,0.3);">🚀 Expert</span>
+            <span class="font-nunito font-800 text-xs px-3 py-1 rounded-full" style="background:rgba(255,255,255,0.08);color:#cbd5e1;border:1px solid rgba(255,255,255,0.12);">Advanced Web Dev</span>
           </div>
-          <h3 class="font-fredoka text-xl mb-1" style="color:#fff;">AI LEVEL-3</h3>
-          <p class="font-poppins text-xs leading-relaxed mb-3" style="color:#cbd5e1;">
+          <h3 class="font-fredoka text-xl mb-1" style="color:#e2e8f0;letter-spacing:-0.01em;">AI LEVEL-3</h3>
+          <p class="font-poppins text-xs leading-relaxed mb-3" style="color:#94a3b8;">
             Professional-grade development featuring Claude Code, GitHub integration, and production deployment strategies.
           </p>
           <div class="flex items-center justify-between">
             <div>
-              <div class="font-nunito font-600 text-xs" style="color:#94a3b8;">AI Professional Tier</div>
-              <div class="font-fredoka text-2xl" style="color:#fff;">PKR 1550<span class="text-sm font-poppins font-400" style="color:#94a3b8;">/course</span></div>
+              <div class="font-nunito font-600 text-xs" style="color:#64748b;">AI Professional Tier</div>
+              <div class="font-fredoka text-2xl" style="color:#93c5fd;">PKR 1550<span class="text-sm font-poppins font-400" style="color:#64748b;">/course</span></div>
             </div>
             <button onclick="openBookModal('ai-level-3')" class="btn-primary py-2.5 px-5 text-sm">View Details</button>
           </div>
